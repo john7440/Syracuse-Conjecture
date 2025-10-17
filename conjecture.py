@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import matplotlib.pyplot as plt
 
 def ask_for_number():
     """
@@ -55,6 +56,22 @@ def display_syracuse_sequence(values, flying_time):
     print(f'{formated_list}\nNumber of steps: {len(values)}\nMax Altitude: {max(values)}\nFlying Time: {flying_time} steps')
 
 
+def plot_syracuse(values, number):
+    """
+    This function plots the Syracuse trajectory using matplotlib.
+    :param values: the values at each step.
+    :param number: the initial number.
+    """
+    steps = list(range(len(values)))
+    plt.figure(figsize=(12, 8))
+    plt.plot(steps, values, marker='o', linestyle='-', color='green')
+    plt.title(f'Syracuse Conjecture for {number}', size = 20)
+    plt.xlabel('Number of steps', size = 15)
+    plt.ylabel('Syracuse Conjecture', size = 15)
+    plt.grid(ls='--')
+    plt.show()
+
+
 def main():
     """
     This is the main function.
@@ -62,6 +79,7 @@ def main():
     number = ask_for_number()
     values, flying_time = syracuse_sequence(number)
     display_syracuse_sequence(values, flying_time)
+    plot_syracuse(values, number)
 
 
 if __name__ == '__main__':
