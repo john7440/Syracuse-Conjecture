@@ -2,14 +2,10 @@
 # -*- coding: utf-8 -*-
 
 
-def validated_input():
+def ask_for_number():
     """
-    This function take a user input,
-    test if it's a valid input (positive number which is not 0 or 1),
-    then it call conjecture function, otherwise
-    it print an error message and ask user again.
-
-    :return: call the conjecture function or print an error message.
+    This function asks the user to enter a number and verify it.
+    :return: the validated number.
     """
     # User input which must be a positive int (which is not 0 or 1)
     # else it returns an error and ask the user again
@@ -23,55 +19,50 @@ def validated_input():
     return user_input
 
 
-
-def conjecture(number):
-    """We calculate the syracuse's conjecture which is:
-        case 1 : n is even , then we divide by 2
-        case 2 : n is odd, then we multiply by 3 and add 1
-
-    :param number: initial value validate
-    :return: a formated string with the list, number of steps needed
-     Optional: maximal altitude and flying time
+def syracuse_sequence(number):
+    """This function calculate the syracuse's conjecture which is:
+        case 1 : n is even , then we divide by 2.
+        case 2 : n is odd, then we multiply by 3 and add 1.
+    :param number: initial value validate.
+    :return: values and the flying time.
     """
     # We create a copy of the initial number to calculate 'flying time' later
     initial_number = number
+    values = []
 
-    # We initialize a new variable 'flying_time' and set it to 0
-    flying_time = 0
-
-    # We initialize a new list that will contain each steps
-    new_list = []
-
-    # A while loop that stop when the actual number is 1
     while number != 1:
-        new_list.append(number)
+        values.append(number)
 
         if number % 2 == 0:
             number //= 2
         else:
             number = number * 3 + 1
 
+    # OPTIONAL part:
+    flying_time = sum(1 for value in values if value > initial_number)
 
-    # OPTIONAL part
-    # A for loop to determinate the flying time which is the first time
-    # a value is lower than the initial value
-    for actual_value in new_list:
-        if actual_value < initial_number:
-            flying_time = actual_value
-            break
+    return values, flying_time
 
-    formated_list = ' -> '.join([str(value) for value in new_list])
-    return f'{formated_list}\nNumber of steps: {len(new_list)}\nMax Altitude: {max(new_list)}\nFlying Time: {flying_time}'
+
+def display_syracuse_sequence(values, flying_time):
+    """
+    This function display the results of the syracuse's conjecture.
+    :param values: the values at each step.
+    :param flying_time:the flying time.
+    :return: a formatted string.
+    """
+    formated_list = ' -> '.join([str(value) for value in values])
+    print(f'{formated_list}\nNumber of steps: {len(values)}\nMax Altitude: {max(values)}\nFlying Time: {flying_time} steps')
 
 
 def main():
     """
     This is the main function.
-    We call the input_validation function to valid the user input.
-    :return: call the conjecture function with the valid input and print it
     """
-    valid_input = validated_input()
-    print(conjecture(valid_input))
+    number = ask_for_number()
+    values, flying_time = syracuse_sequence(number)
+    display_syracuse_sequence(values, flying_time)
+
 
 if __name__ == '__main__':
    main()
